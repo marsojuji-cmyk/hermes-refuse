@@ -1,4 +1,4 @@
-# Hermes Controlled Execution
+# Hermes Refuse
 
 Fail-closed macOS execution layer for agent-driven work.
 
