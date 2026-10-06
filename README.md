@@ -2,9 +2,7 @@
 
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-Fail-closed macOS execution layer for agent-driven work.
-
-**Status:** Early public scaffold (Apache-2.0). This document describes intended architecture and boundaries. Implementation on `main` is landing; do not assume production readiness.
+**A high-blast-radius control plane with no fail-closed layer.** Hermes Refuse is a fail-closed macOS execution layer for agent-driven work — early public scaffold. Intended architecture and boundaries described; implementation landing; production readiness not assumed.
 
 **Affiliation:** Technical artifact under **Memory Utility Labs** (lab-first public face). Product context: intended for the AEGIS / AION stack.  
 **Not affiliated with:** Quantify Labs’ Aegis Memory.
@@ -15,7 +13,7 @@ Fail-closed macOS execution layer for agent-driven work.
 
 Agents and automations that can act on a real Mac create a high-blast-radius control plane. A single ambiguous path, over-broad shell grant, or silent success without audit turns “helpful automation” into uncontrolled system change.
 
-Hermes exists to make execution **narrow, inspectable, and fail-closed**.
+Hermes exists to make execution **narrow, inspectable, and fail-closed** — ambiguous, over-broad, or unaudited is refused.
 
 ---
 
