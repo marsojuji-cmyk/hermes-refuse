@@ -1,7 +1,7 @@
 # Hermes Refuse
 
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 Fail-closed macOS execution layer for agent-driven work.
 
 **Status:** Early public scaffold (Apache-2.0). This document describes intended architecture and boundaries. Implementation on `main` is landing; do not assume production readiness.
