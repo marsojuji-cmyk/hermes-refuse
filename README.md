@@ -163,7 +163,7 @@ Intent → Allowlist match? → Exact resolve? → Isolated execute
 Expect a thin tree while implementation lands. License and this architecture note are the public contract until modules appear under explicit paths.
 
 ```
-Hermes-Controlled-Execution/
+hermes-refuse/
 ├── LICENSE
 ├── README.md
 └── (implementation landing)
