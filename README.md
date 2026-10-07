@@ -1,7 +1,7 @@
 # Hermes Refuse
 
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 **A high-blast-radius control plane with no fail-closed layer.** Hermes Refuse is a fail-closed macOS execution layer for agent-driven work — early public scaffold. Intended architecture and boundaries described; implementation landing; production readiness not assumed.
 
 **Affiliation:** Technical artifact under **Memory Utility Labs** (lab-first public face). Product context: intended for the AEGIS / AION stack.  
@@ -163,7 +163,7 @@ Intent → Allowlist match? → Exact resolve? → Isolated execute
 Expect a thin tree while implementation lands. License and this architecture note are the public contract until modules appear under explicit paths.
 
 ```
-Hermes-Controlled-Execution/
+hermes-refuse/
 ├── LICENSE
 ├── README.md
 └── (implementation landing)
