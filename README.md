@@ -1,23 +1,55 @@
 # Hermes Refuse
 
-> **Status: design spec. No code yet.** This repository holds the design for Hermes Refuse: the problem, threat model, intended architecture, and boundaries. It contains no implementation. Code will land here when it exists.
+> **Status: design spec. No code yet.** This repository holds the design for Hermes Refuse: the problem, the threat model, the intended architecture and the boundaries. It contains no implementation. Code will land here when it exists.
 
+**Specifies a macOS execution layer for agent-driven work that refuses any action that is ambiguous, over-broad or unaudited.**
 
+[![CI](https://github.com/marsojuji-cmyk/hermes-refuse/actions/workflows/ci.yml/badge.svg)](https://github.com/marsojuji-cmyk/hermes-refuse/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-**A high-blast-radius control plane with no fail-closed layer.** Hermes Refuse is a fail-closed macOS execution layer for agent-driven work — early public scaffold. Intended architecture and boundaries described; implementation landing; production readiness not assumed.
 
 **Affiliation:** Technical artifact under **Memory Utility Labs** (lab-first public face). Product context: intended for the AEGIS / AION stack.  
 **Not affiliated with:** Quantify Labs’ Aegis Memory.
 
----
+## What the design requires
+
+Nothing here is enforced yet, because there is no code. These are the properties an implementation must have to count as Hermes Refuse:
+
+- **Deny by default.** An operation runs only if it is named on an allowlist **and** resolves to exactly one target.
+- **Fail closed at every stage.** An allowlist miss, an ambiguous resolve, missing isolation, a validation failure or a failed receipt write all end in refusal, never in "accept anyway".
+- **No raw power on the agent path:** no unrestricted shell, root, credential access, unconstrained network or deletion authority.
+- **Receipts for everything that runs.** The audit log is redacted and append-only, and a missing receipt counts as a failure.
+- **No back door.** An optional Automator front end inherits the same policy.
+
+## Read the spec
+
+The design is §1–§6 below:
+- Problem
+- Threat model (assets, seven failure modes, what's out of scope)
+- Trust boundaries (diagram)
+- Capability model
+- Control loop with the designed fail-closed table
+- Non-goals
+
+## How it fails (by design)
+
+See the [control loop](#5-control-loop) table. Each stage's failure ends in **refuse**, or in **rollback, then refuse** where rollback is supported. That is the design target an implementation will be tested against. Today it is a specification, not a behaviour.
+
+## Evidence
+
+| Claim | Label |
+|---|---|
+| Public repo, Apache-2.0 | **Verified** |
+| Fail-closed / allowlist / isolation / validation / rollback / receipts / Automator front end | **Design intent** (this document). No code exists to verify against |
+| Implementation on `main` | **None**. The tree is README, LICENSE, SECURITY, CONTRIBUTING |
+| Production deployment | **Not claimed** |
+
+CI checks only that `README.md` and `LICENSE` exist and that no secret-shaped strings are committed.
 
 ## 1. Problem
 
 Agents and automations that can act on a real Mac create a high-blast-radius control plane. A single ambiguous path, over-broad shell grant, or silent success without audit turns “helpful automation” into uncontrolled system change.
 
 Hermes exists to make execution **narrow, inspectable, and fail-closed** — ambiguous, over-broad, or unaudited is refused.
-
----
 
 ## 2. Threat model
 
@@ -46,8 +78,6 @@ Hermes exists to make execution **narrow, inspectable, and fail-closed** — amb
 - Full malware analysis of third-party binaries Hermes might invoke (future hardening).
 - Guarantees against a human operator who already has admin and chooses to bypass Hermes.
 - Cross-host orchestration or remote C2.
-
----
 
 ## 3. Trust boundaries
 
@@ -94,8 +124,6 @@ flowchart TB
 
 **Rule:** Nothing crosses a boundary unless the previous plane accepted it. Ambiguity or missing policy ⇒ **refuse**.
 
----
-
 ## 4. Capability model
 
 ### Allowed shape (design intent)
@@ -121,8 +149,6 @@ Optional human front end (Automator) must inherit the **same** policy — it is 
 | Unconstrained network | Exfil + remote control risk |
 | Deletion authority | Irreversible damage without separate, explicit policy |
 
----
-
 ## 5. Control loop
 
 ```
@@ -130,15 +156,13 @@ Intent → Allowlist match? → Exact resolve? → Isolated execute
       → Validate → (fail: rollback / refuse) → Append redacted receipt
 ```
 
-| Stage | Fail-closed behavior |
+| Stage | Designed fail-closed behavior (not implemented) |
 |---|---|
 | Allowlist miss | Refuse |
 | Non-exact resolve | Refuse |
 | Isolation unavailable | Refuse |
 | Validation fail | Rollback if supported; never “accept anyway” |
 | Receipt write fail | Treat as failure (no silent success) |
-
----
 
 ## 6. Non-goals
 
@@ -147,32 +171,10 @@ Intent → Allowlist match? → Exact resolve? → Isolated execute
 - Claiming AEGIS is production-complete
 - Competing with or implying identity as Quantify Labs’ Aegis Memory
 
----
+## Status
 
-## 7. Evidence labels
-
-| Claim | Label |
-|---|---|
-| Public repo + Apache-2.0 | **Verified** |
-| Fail-closed / allowlist / isolation / validation / rollback / receipts / Automator front end | **Documented design intent** (repo description) |
-| Complete implementation on `main` | **Landing / not assumed** |
-| Production deployment | **Not claimed** |
-
----
-
-## 8. Repository status
-
-Expect a thin tree while implementation lands. License and this architecture note are the public contract until modules appear under explicit paths.
-
-```
-hermes-refuse/
-├── LICENSE
-├── README.md
-└── (implementation landing)
-```
-
----
+Design spec. No implementation and no release. When code lands, each "design requires" item above becomes a test, and the README moves to the tested-claims format.
 
 ## License
 
-Apache License 2.0 — see [`LICENSE`](./LICENSE).
+Apache License 2.0. See [`LICENSE`](./LICENSE).
