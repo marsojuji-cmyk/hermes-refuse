@@ -1,5 +1,7 @@
 # Hermes Refuse
 
+> **Status: design spec. No code yet.** This repository holds the design for Hermes Refuse: the problem, threat model, intended architecture, and boundaries. It contains no implementation. Code will land here when it exists.
+
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 **A high-blast-radius control plane with no fail-closed layer.** Hermes Refuse is a fail-closed macOS execution layer for agent-driven work — early public scaffold. Intended architecture and boundaries described; implementation landing; production readiness not assumed.
